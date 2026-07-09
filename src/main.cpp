@@ -1,16 +1,24 @@
 #include "Board.h"
+#include "Minimax.h"
 #include <iostream>
 
 int main() {
     Board board;
     int currentPlayer = 1;
+    int searchDepth = 5;
 
     while (true) {
         board.print();
-        std::cout << "Player " << currentPlayer << ", choose a column (0-6): ";
 
         int col;
-        std::cin >> col;
+        if (currentPlayer == 1) {
+            std::cout << "Player 1, choose a column (0-6): ";
+            std::cin >> col;
+        } else {
+            std::cout << "AI (Player 2) is thinking..." << std::endl;
+            col = findBestMove(board, searchDepth, currentPlayer);
+            std::cout << "AI chose column " << col << std::endl;
+        }
 
         bool success = board.dropPiece(col, currentPlayer);
         if (!success) {
